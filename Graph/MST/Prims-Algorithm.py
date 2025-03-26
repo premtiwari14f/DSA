@@ -5,23 +5,27 @@ class Solution:
     # Function to find sum of weights of edges of the Minimum Spanning Tree.
     def spanningTree(self, V: int, adj: List[List[List[int]]]) -> int:
         vis = set()
-        mst_hq = [(0, 0)]
+        mst_hq = [(0, 0, -1)]  # (cost, node, parent)
         heapq.heapify(mst_hq)
         sm = 0
+        mst_edges = []
 
         while len(mst_hq) > 0:
-            cost, node = heapq.heappop(mst_hq)
+            cost, node, parent = heapq.heappop(mst_hq)
             if node in vis:
                 continue
             vis.add(node)
             sm += cost
-
+            if parent != -1:
+                mst_edges.append((parent, node, cost))
+            
             for neighbor, edge_cost in adj[node]:
                 if neighbor not in vis:
-                    heapq.heappush(mst_hq, (edge_cost, neighbor))
-
+                    heapq.heappush(mst_hq, (edge_cost, neighbor, node))
+        print(mst_edges)
         return sm
 
+# Test cases
 # Function to run test cases
 def run_test_case(test_num, V, adj, expected):
     sol = Solution()

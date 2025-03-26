@@ -26,7 +26,6 @@ Min-Heap, Visited, Smallest Edge, No Cycles, V - 1 Edges, Priority Queue.
 
 4️⃣ Repeat until **V - 1** edges are added to the MST.
 
-
 ## 🏗 Use Cases
 ✔ **Network Design:** Used in designing computer networks, telecommunication networks, and road networks.
 
@@ -37,7 +36,6 @@ Min-Heap, Visited, Smallest Edge, No Cycles, V - 1 Edges, Priority Queue.
 ✔ **Image Segmentation:** Applied in image processing and vision-based applications.
 
 ✔ **Electric Grid Systems:** Ensures efficient electricity distribution with minimal wiring cost.
-
 
 ## ⏳ Time Complexity
 - **Using Min-Heap & Adjacency List:** `O((V + E) log V)`, but when `E` is near `V²`, it approaches `O(V² log V)`.
@@ -53,7 +51,36 @@ Min-Heap, Visited, Smallest Edge, No Cycles, V - 1 Edges, Priority Queue.
 **Total MST Weight: 4**
 
 ## 📌 Code Implementation
-🔗 **Check out the implementation here:** [Prim’s Algorithm Code](#)
+🔗 **Check out the implementation here:** [Prim’s Algorithm Code, With Test Cases](Prims-Algorithm.py)
+
+```python
+import heapq
+from typing import List
+
+class Solution:
+    # Function to find sum of weights of edges of the Minimum Spanning Tree.
+    def spanningTree(self, V: int, adj: List[List[List[int]]]) -> int:
+        vis = set()
+        mst_hq = [(0, 0, -1)]  # (cost, node, parent)
+        heapq.heapify(mst_hq)
+        sm = 0
+        mst_edges = []
+
+        while len(mst_hq) > 0:
+            cost, node, parent = heapq.heappop(mst_hq)
+            if node in vis:
+                continue
+            vis.add(node)
+            sm += cost
+            if parent != -1:
+                mst_edges.append((parent, node, cost))
+            
+            for neighbor, edge_cost in adj[node]:
+                if neighbor not in vis:
+                    heapq.heappush(mst_hq, (edge_cost, neighbor, node))
+        print(mst_edges)
+        return sm
+```
 
 ## 📚 References
 🔗 **Video Explanation** by Gate Smashers: [Watch Here](https://www.youtube.com/watch?v=_KX8GDvRzBc)
